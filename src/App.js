@@ -24,7 +24,7 @@ class App extends Component {
               map: map,
             })
             const infoWindow = new google.maps.InfoWindow({
-              content: `<h1>${location.brewer.name}</h1>${location.address} ${location.locality} ${location.region} ${location.zipcode}`
+              content: `<h1>${location.brewer.name}</h1><h4><a href="${location.brewer.website}">${location.brewer.website}</a></h4>${location.address} ${location.locality} ${location.region} ${location.zipcode}`
             });
             marker.addListener('click',() => {
               infoWindow.open(map, marker)
@@ -44,6 +44,7 @@ class App extends Component {
       })
     })
   }
+
 
   buildQuery(map){
     let bounds = map.getBounds()
