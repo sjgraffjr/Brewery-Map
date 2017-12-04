@@ -32,8 +32,10 @@ class Map extends Component{
 								<h4>
 									<a href="${location.brewer.website}">
 										${location.brewer.website}
-									</a><br>
-									<a target="_blank" href="https://www.google.com/maps?saddr=My+Location&daddr=${location.address}+${location.locality}+${location.region}+${location.zipcode}&t=h">Directions</a>
+									</a></br>
+									<img src="http://maps.gstatic.com/tactile/omnibox/directions-1x-20150909.png"></br>
+										<a target="_blank" href="https://www.google.com/maps?saddr=My+Location&daddr=${location.address}+${location.locality}+${location.region}+${location.zipcode}&t=h">Directions</a>
+									
 								</h4>${location.address} ${location.locality} ${location.region} ${location.zipcode}`
 						});
 						marker.addListener('click',() => {
@@ -45,6 +47,7 @@ class Map extends Component{
 
 		});     
 	}
+
 	fetchLocations(map){
 		const url = `http://localhost:5000/locations.json?${qs.stringify(this.buildQuery(map))}`
 		return fetch(url).then((res)=>{

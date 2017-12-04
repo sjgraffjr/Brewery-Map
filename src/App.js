@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Header from './Header/header.js'
+import Header from './Header/header.js';
+import Footer from './Footer/Footer.js';
 import Map from './Map/Map.js'
 
 class App extends Component {
@@ -12,8 +13,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <Header>Brewery Roadtrip</Header>
+      <Header>Brewery Map</Header>
       <Map/>
+      <Footer>
+        <div>Made by <b>GRAFF</b>icDesign</div> 
+
+
+      </Footer>
       
       </div>
     );
