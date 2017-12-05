@@ -7,8 +7,7 @@ class Footer extends Component {
     	<div class="footers">
     		<footer>{this.props.children}</footer>
     	</div>
-
-		);
+	);
   }
 }
 

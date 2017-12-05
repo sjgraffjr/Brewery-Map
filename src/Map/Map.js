@@ -3,6 +3,7 @@ import './Map.css';
 import GoogleMapsLoader from 'google-maps' 
 import qs from 'qs';
 GoogleMapsLoader.KEY = 'AIzaSyB4FZaYri65G07f57JJiIR3XvoEjQseBEQ';
+const BACKEND_URL = 'http://localhost:5000';
 
 class Map extends Component{
 	constructor(props){
@@ -49,7 +50,7 @@ class Map extends Component{
 	}
 
 	fetchLocations(map){
-		const url = `http://localhost:5000/locations.json?${qs.stringify(this.buildQuery(map))}`
+		const url = `${BACKEND_URL}/locations.json?${qs.stringify(this.buildQuery(map))}`
 		return fetch(url).then((res)=>{
 			return res.json().then((locations)=>{
 				return locations
