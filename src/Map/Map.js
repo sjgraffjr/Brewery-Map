@@ -30,6 +30,7 @@ class Map extends Component{
 						const infoWindow = new google.maps.InfoWindow({
 							content: `
 								<h1>${location.brewer.name}</h1>
+								<img src="${location.brewer.img_url}"/>
 								<h4>
 									<a href="${location.brewer.website}">
 										${location.brewer.website}
