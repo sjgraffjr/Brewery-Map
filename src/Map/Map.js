@@ -3,7 +3,8 @@ import './Map.css';
 import GoogleMapsLoader from 'google-maps' 
 import qs from 'qs';
 GoogleMapsLoader.KEY = 'AIzaSyB4FZaYri65G07f57JJiIR3XvoEjQseBEQ';
-const BACKEND_URL = 'http://localhost:5000';
+GoogleMapsLoader.LIBRARIES = ['places'];
+const BACKEND_URL = 'http://localhost:5000';      
 
 class Map extends Component{
 	constructor(props){
@@ -20,34 +21,66 @@ class Map extends Component{
 			}
 
 			const map = new google.maps.Map(mapCanvas, mapOptions);
-			google.maps.event.addListener(map, 'idle', () => {
-				this.fetchLocations(map).then((locations)=>{
-					locations.forEach((location)=>{ 
-						const marker = new google.maps.Marker({
-							position: new google.maps.LatLng(parseFloat(location.latitude),parseFloat(location.longitude)),
-							map: map,
-						})
-						const infoWindow = new google.maps.InfoWindow({
-							content: `
-								<h1>${location.brewer.name}</h1>
-								<img src="${location.brewer.img_url}"/>
-								<h4>
-									<a href="${location.brewer.website}">
-										${location.brewer.website}
-									</a></br>
-									<img src="http://maps.gstatic.com/tactile/omnibox/directions-1x-20150909.png"></br>
-										<a target="_blank" href="https://www.google.com/maps?saddr=My+Location&daddr=${location.address}+${location.locality}+${location.region}+${location.zipcode}&t=h">Directions</a>
-									
-								</h4>${location.address} ${location.locality} ${location.region} ${location.zipcode}`
-						});
-						marker.addListener('click',() => {
-							infoWindow.open(map, marker)
-						})
-					})
-				})
-			})
+			// Create the search box and link it to the UI element.
+			const input = document.getElementById('pac-input');
+			const searchBox = new google.maps.places.SearchBox(input);
+			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-		});     
+	        // Bias the SearchBox results towards current map's viewport.
+	        map.addListener('bounds_changed', function() {
+	        	searchBox.setBounds(map.getBounds());
+	        });
+	        google.maps.event.addListener(map, 'idle', () => {
+	        	this.fetchLocations(map).then((locations)=>{
+	        		locations.forEach((location)=>{ 
+	        			const marker = new google.maps.Marker({
+	        				position: new google.maps.LatLng(parseFloat(location.latitude),parseFloat(location.longitude)),
+	        				map: map,
+	        			})
+	        			const infoWindow = new google.maps.InfoWindow({
+	        				content: `
+	        				<h1>${location.brewer.name}</h1>
+	        				<img src="${location.brewer.img_url}"/>
+	        				<h4>
+	        				<a href="${location.brewer.website}">
+	        				${location.brewer.website}
+	        				</a></br>
+	        				<img src="http://maps.gstatic.com/tactile/omnibox/directions-1x-20150909.png"></br>
+	        				<a target="_blank" href="https://www.google.com/maps?saddr=My+Location&daddr=${location.address}+${location.locality}+${location.region}+${location.zipcode}&t=h">Directions</a>
+
+	        				</h4>${location.address} ${location.locality} ${location.region} ${location.zipcode}</br>
+	        				${location.phone}`
+	        			});
+	        			marker.addListener('click',() => {
+	        				infoWindow.open(map, marker)
+	        			})
+	        		})
+	        	})
+	        })
+	        searchBox.addListener('places_changed', function() {
+	        	var places = searchBox.getPlaces();
+
+	        	if (places.length == 0) {
+	        		return;
+	        	}
+	        	const bounds = new google.maps.LatLngBounds();
+	        	places.forEach(function(place) {
+	        		if (!place.geometry) {
+	        			console.log("Returned place contains no geometry");
+	        			return;
+	        		}
+
+	        		if (place.geometry.viewport) {
+		              // Only geocodes have viewport.
+		              bounds.union(place.geometry.viewport);
+		          	} else {
+		          		bounds.extend(place.geometry.location);
+		          	}
+			    });
+	        	map.fitBounds(bounds);
+	        });
+
+	    });     
 	}
 
 	fetchLocations(map){
@@ -78,8 +111,12 @@ class Map extends Component{
 	}
 	render(){
 		return (
-			<div id="map-canvas" ref="Map">
+			<div>
+			<div id="map-canvas" ref="Map"></div>
+			<input id="pac-input" className="controls" type="text" placeholder="Search Box"/>
+
 			</div>
+
 			)
 	}
 
