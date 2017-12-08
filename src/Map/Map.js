@@ -4,7 +4,7 @@ import GoogleMapsLoader from 'google-maps'
 import qs from 'qs';
 GoogleMapsLoader.KEY = 'AIzaSyB4FZaYri65G07f57JJiIR3XvoEjQseBEQ';
 GoogleMapsLoader.LIBRARIES = ['places'];
-const BACKEND_URL = 'http://localhost:5000';      
+const BACKEND_URL = 'https://brewery-map-backend.herokuapp.com';      
 
 class Map extends Component{
 	constructor(props){
