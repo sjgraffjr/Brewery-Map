@@ -21,7 +21,7 @@ class Map extends Component{
 			}
 
 			const map = new google.maps.Map(mapCanvas, mapOptions);
-			// Create the search box and link it to the UI element.
+			// Create the search box 
 			const input = document.getElementById('pac-input');
 			const searchBox = new google.maps.places.SearchBox(input);
 			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -58,7 +58,7 @@ class Map extends Component{
 	        	})
 	        })
 	        searchBox.addListener('places_changed', function() {
-	        	var places = searchBox.getPlaces();
+	        	const places = searchBox.getPlaces();
 
 	        	if (places.length == 0) {
 	        		return;
