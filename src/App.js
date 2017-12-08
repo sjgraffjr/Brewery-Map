@@ -4,7 +4,7 @@ import './App.css';
 import Header from './Header/header.js';
 import Footer from './Footer/Footer.js';
 import Map from './Map/Map.js'
-const BACKEND_URL = 'hhttps://brewery-map-backend.herokuapp.com'
+const BACKEND_URL = 'https://brewery-map-backend.herokuapp.com'
 
 class App extends Component {
   

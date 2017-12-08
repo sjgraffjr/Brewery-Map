@@ -6,3 +6,9 @@ header {
 	font-size: 5em;
 	font-family:'Josefin Slab', serif;
 }
+
+@media only screen and (max-width: 450px) {
+   header {
+   	font-size: 3em;
+   }
+}
